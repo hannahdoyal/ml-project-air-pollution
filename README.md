@@ -1,95 +1,63 @@
-# Template Repo for ML Project
+# Air Quality Predicting
 
-This template repo will give you a good starting point for your second project. Besides the files used for creating a virtual environment, you will find a simple example of how to build a simple model in a python script. This is maybe the simplest way to do it. We train a simple model in the jupyter notebook, where we select only some features and do minimal cleaning. The output is then stored in simple python scripts.
+## Fetching the Data
 
-The data used for this is: [coffee quality dataset](https://github.com/jldbc/coffee-quality-database).
-
----
-
-## Set up a Kanban board on github
-
-Go to ML-Project Template.
-
-1. Click on "Use this Template" (Blue button)
-![alt text](./images/step_1a_new.png)
-
-2. Create new repository with relevant name, the owner should be your own account and **not** Spiced. 
-![alt text](./images/step_2_new.png)
-
-3. In your newly create repo, navigate to "Projects", and then click on "Link a project" (blue button). Normally you don't have created a project yet, so you can click the arrow navigation to create project on your profile. This project can be added at the end to your repository.
-![alt text](./images/add_project_new.png)
+The data for this task can be accessed on the [Zindi](https://zindi.africa/competitions/zindiweekendz-learning-urban-air-pollution-challenge/data) website. From there you should download the 'Train.csv' file and save it as 'pollution.csv' within the data folder of this repository. Once this step is done, you must make sure to set up your environment as below in order to be able to run the necessary cells in the Jupyter notebook.
 
 
-4.  You will be guided to your profiles projects and it will be shown a create project window. Choose "board" view and **not** "table" view.
- ![alt text](./images/choose_board.png)
-5. Now change the name of your board, to match that of your chosen ML project. Then click "Create project" blue button. Great you create Kanban Board
-![alt text](./images/create_project_new.png)
+Because this notebook uses XGBoost as one of its models, there are some important steps when setting up your virtual environment in order to ensure compatibility
 
-6. Next, assign rights to all your team members by clicking on the 3 dots on the top right of the board, and then go to "Settings".
-![alt text](./images/kanban_settings.png)
-
-
-7. Next, click on "Manage Access". Add your team mates by Searching for their github handle in the search window.Change their Role from ‘Write’ to ‘Admin’. Click on the blue button “Invite” to add them. Repeat for all team members.
-![alt text](./images/team_access_new.png
-)
-
-8. Next,go back to the kanban board and at the bottom  add action items with the relevant name e.g. “load data”, "get statistics", etc.
-![alt text](./images/load_data_item.png
-)
-
-
-9. Convert added item to issue by clicking on the 3 dots on the particular added item.
-![alt text](./images/convert_to_issue.png
-)
-
-10. Then select the repo you created  for the issue to be added. (Select the project repo example “my-project-name”)
-![alt text](./images/select_repo.png
-)
-
-11. When in project repo, Go to issues, then go to milestones. 
-![alt text](./images/to_milestones.png
-)
-
-12. Click on ”New milestone”.
-
-13. Give the milestone a due date and description as per the example provided by the coaches. Add description of: 
-
-    A) What needs to be completed to be done with the milestone
-
-    B) The definition of done: what will your result look like when you have completed the milestone? (check the provided format)
-![alt text](./images/new_milestone.png)
-
-14. Now navigate to "issues".
-
-15. Assign issues to milestones 
-![alt text](./images/milestone_to_issue_new.png)
-
-16. Give it assignees (people who will work on the task). 
-![alt text](./images/milestone_to_someone.png)
-
-### Optional: Add workflows
-
-Workflows can help you keep your kanban board automatically on track. 
-
-Select the project created in the steps above.  
-
-Click on the 3 dots to the far right of the board (...)
-
-Select workflow as the first option. 
-
-Activate the ones you feel necessary to your project
-
-Go back to your project repository (fraud detection))
 
 ## Set up your Environment
 
+This repo contains a requirements.txt file with a list of all the packages and dependencies you will need.
+
+Before you can install `xgboost` in your new environment you need to install `cmake`. If you haven't done it yet.
+
+ - Check the **Cmake version**  by run the following commands:
+    ```sh
+    cmake --version
+    ```
+    If you haven't installed it yet, begin at `step_1`. Otherwise, proceed to `step_2`.
 
 
 ### **`macOS`** type the following commands : 
 
+- `Step_1:` Update Homebrew and install Cmake by following commands:
+    ```sh
+    brew update
+    brew install cmake
+    ```
+  Restart Your Terminal and then check the **Cmake version**  by run the following commands:
+     ```sh
+    cmake --version
+    ```
+  If `cmake --version` doesn't display the version, add it to your macOS PATH by following these steps:
 
+  * Find and copy the cmake bin directory on macOS.
 
-- For installing the virtual environment and the required package you can either follow the commands:
+    ```sh
+    which cmake
+    ```
+    
+  * Edit the .zshrc or a similar .conf file using a text editor like Nano, Vim, or VSCode.
+
+     ```sh
+    nano ~/.zshrc
+    ```
+  * Add the following line to the .zshrc file. Make sure to replace <PATH> with your cmake version.
+    ```sh
+    export PATH="<PATH>"
+    ```
+  * Save and exit the text editor. In nano, you can do this by pressing Ctrl + O, then Enter, and then Ctrl + X to exit.
+  * Restart Your Terminal
+    ```sh
+    source ~/.zshrc
+    cmake --version
+    ```
+
+- `Step_2:` Install the virtual environment and the required packages by following commands:
+  There are two ways to create and activate a new virtual environment for this repo. You can either use the [requirements](requirements.txt) file and run the following commands...
 
     ```BASH
     pyenv local 3.11.3
@@ -98,20 +66,52 @@ Go back to your project repository (fraud detection))
     pip install --upgrade pip
     pip install -r requirements.txt
     ```
-Or ....
--  use the [Makefile](Makefile) and run `make setup` or install it manually with the following commands:
-
-     ```BASH
-    make setup
-    ```
-    After that active your environment by following commands:
-    ```BASH
-    source .venv/bin/activate
-    ```
+  ... or you can make use of the [`Makefile`](Makefile) we included in this repo. This makefile stores a bunch of bash commands which will be executed when running the following command in the terminal (make sure you are in the correct folder):
+  
+  ```BASH
+  make setup
+  ```
+  After creating the environment using the makefile you still need to activate it running the `source` command!
+  
+  *Note: If there are errors during environment setup, try removing the versions from the failing packages in the requirements file.*
 
 ### **`WindowsOS`** type the following commands :
 
-- Install the virtual environment and the required packages by following commands.
+- `Step_1:` Update Chocolatey and install Cmake by following commands:
+    ```sh
+    choco upgrade chocolatey
+    choco install cmake
+    ```
+    Restart Your Terminal and then check the **Cmake version**  by running the following commands:
+  
+     ```sh
+    cmake --version
+    ```
+  If `cmake --version` doesn't display the version, add it to your winOS PATH by following these steps:
+
+  * Find and copy the Cmake bin directory on winOS.
+
+    The default path is typical `C:\Program Files\cmake\bin`, where is your cmake version.
+
+  * Open Command Prompt as Administrator:
+
+    * Search for "Command Prompt" in your Start menu.
+    * Right-click on "Command Prompt" and select "Run as administrator."
+
+  * Add cmake to PATH:
+
+    ```PowerShell
+    setx PATH "$($env:PATH);C:\Program Files\cmake\bin"
+    ```
+  * Close the Administrator Command Prompt window.
+
+
+  * Open a new Terminal and run the following command 
+    ```PowerShell
+    cmake --version
+    ```
+
+- `Step_2:` Install the virtual environment and the required packages by following commands.
 
    For `PowerShell` CLI :
 
@@ -123,7 +123,7 @@ Or ....
     pip install -r requirements.txt
     ```
 
-    For `Git-bash` CLI :
+    For `Git-Bash` CLI :
   
     ```BASH
     pyenv local 3.11.3
@@ -132,33 +132,11 @@ Or ....
     pip install --upgrade pip
     pip install -r requirements.txt
     ```
+ 
 
-    **`Note:`**
+ **`Note:`**
     If you encounter an error when trying to run `pip install --upgrade pip`, try using the following command:
-    ```Bash
-    python.exe -m pip install --upgrade pip
-    ```
 
-
-   
-## Usage
-
-In order to train the model and store test data in the data folder and the model in models run:
-
-**`Note`**: Make sure your environment is activated.
-
-```bash
-python example_files/train.py  
-```
-
-In order to test that predict works on a test set you created run:
-
-```bash
-python example_files/predict.py models/linear_regression_model.sav data/X_test.csv data/y_test.csv
-```
-
-## Limitations
-
-Development libraries are part of the production environment, normally these would be separate as the production code should be as slim as possible.
-
-
+   ```Bash
+   python.exe -m pip install --upgrade pip
+   ```
